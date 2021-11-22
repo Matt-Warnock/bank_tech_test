@@ -36,7 +36,42 @@ RSpec.describe UserInterface do
 
       user_interface.menu_choice
 
-      expect(output.string).to include 'Please enter a valid choice'
+      expect(output.string).to include 'Please enter a valid number'
+    end
+  end
+
+  describe '#prompt_deposit' do
+    let(:user_deposit) { StringIO.new("1000\n") }
+    let(:user_interface) { described_class.new(user_deposit, output, options) }
+
+    it 'prompts user for a deposit amount' do
+      user_interface.prompt_deposit
+
+      expect(output.string).to include 'Enter amount you wish to deposit: '
+    end
+
+    it 'returns user amount entered' do
+      user_amount = user_interface.prompt_deposit
+
+      expect(user_amount).to eq 1000
+    end
+
+    it 'accepts pence desimal point' do
+      user_deposit = StringIO.new('34.95')
+      user_interface = described_class.new(user_deposit, output, options)
+
+      user_amount = user_interface.prompt_deposit
+
+      expect(user_amount).to eq 34.95
+    end
+
+    it 'only accepts valid numbers' do
+      invalid_deposit = StringIO.new("Twenty-two pounds\n500\n")
+      user_interface = described_class.new(invalid_deposit, output, options)
+
+      user_interface.prompt_deposit
+
+      expect(output.string).to include 'Please enter a valid number'
     end
   end
 end

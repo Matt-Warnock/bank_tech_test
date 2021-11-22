@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class UserInterface
-  VAID_OPTION = /^[1-4]$/.freeze
-  VAILD_MONEY_AMOUNT = /^\d+(.\d{2})?$/.freeze
+  VALID_OPTION = /^[1-4]$/.freeze
+  VALID_MONEY_AMOUNT = /^\d+(.\d{2})?$/.freeze
 
   def initialize(input, output, options)
     @input = input
@@ -13,7 +13,12 @@ class UserInterface
   def menu_choice
     print_menu
     output.puts 'Choose an option: '
-    valid_input { |user_input| user_input.match?(VAID_OPTION) }
+    valid_input { |user_input| user_input.match?(VALID_OPTION) }
+  end
+
+  def prompt_deposit
+    output.puts 'Enter amount you wish to deposit: '
+    valid_input { |user_input| user_input.match?(VALID_MONEY_AMOUNT) }
   end
 
   private
@@ -29,9 +34,9 @@ class UserInterface
   def valid_input
     loop do
       user_input = input.gets.chomp
-      break user_input.to_i if yield user_input
+      break user_input.to_f if yield user_input
 
-      output.puts 'Please enter a valid choice'
+      output.puts 'Please enter a valid number'
     end
   end
 end
