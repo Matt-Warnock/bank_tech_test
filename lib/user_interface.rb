@@ -4,22 +4,23 @@ class UserInterface
   VAID_OPTION = /^[1-4]$/.freeze
   VAILD_MONEY_AMOUNT = /^\d+(.\d{2})?$/.freeze
 
-  def initialize(input, output)
+  def initialize(input, output, options)
     @input = input
     @output = output
+    @options = options
   end
 
-  def menu_choice(options)
-    print_menu(options)
+  def menu_choice
+    print_menu
     output.puts 'Choose an option: '
     valid_input { |user_input| user_input.match?(VAID_OPTION) }
   end
 
   private
 
-  attr_reader :input, :output
+  attr_reader :input, :output, :options
 
-  def print_menu(options)
+  def print_menu
     options.each_index do |index|
       output.puts "#{index + 1}. #{options[index]}"
     end
