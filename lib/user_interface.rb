@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class UserInterface
+  DEPOSIT = 'Enter amount you wish to deposit: '
+  MENU_OPTION = 'Choose an option: '
+  WITHDRAWAL = 'Enter amount you wish to withdraw: '
   VALID_OPTION = /^[1-4]$/.freeze
   VALID_MONEY_AMOUNT = /^\d+(.\d{2})?$/.freeze
 
@@ -12,13 +15,11 @@ class UserInterface
 
   def menu_choice
     print_menu
-    output.puts 'Choose an option: '
-    valid_input { |user_input| user_input.match?(VALID_OPTION) }
+    prompt_valid_input(MENU_OPTION, VALID_OPTION)
   end
 
-  def prompt_deposit
-    output.puts 'Enter amount you wish to deposit: '
-    valid_input { |user_input| user_input.match?(VALID_MONEY_AMOUNT) }
+  def prompt_amount_for(prompt)
+    prompt_valid_input(prompt, VALID_MONEY_AMOUNT)
   end
 
   private
@@ -29,6 +30,11 @@ class UserInterface
     options.each_index do |index|
       output.puts "#{index + 1}. #{options[index]}"
     end
+  end
+
+  def prompt_valid_input(prompt, validation)
+    output.puts prompt
+    valid_input { |user_input| user_input.match?(validation) }
   end
 
   def valid_input

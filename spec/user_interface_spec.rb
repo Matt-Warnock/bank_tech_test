@@ -40,18 +40,19 @@ RSpec.describe UserInterface do
     end
   end
 
-  describe '#prompt_deposit' do
+  describe '#prompt_amount_for' do
     let(:user_deposit) { StringIO.new("1000\n") }
     let(:user_interface) { described_class.new(user_deposit, output, options) }
+    let(:prompt) { described_class::DEPOSIT }
 
-    it 'prompts user for a deposit amount' do
-      user_interface.prompt_deposit
+    it 'prompts user with prompt passed' do
+      user_interface.prompt_amount_for(prompt)
 
-      expect(output.string).to include 'Enter amount you wish to deposit: '
+      expect(output.string).to include prompt
     end
 
     it 'returns user amount entered' do
-      user_amount = user_interface.prompt_deposit
+      user_amount = user_interface.prompt_amount_for(prompt)
 
       expect(user_amount).to eq 1000
     end
@@ -60,7 +61,7 @@ RSpec.describe UserInterface do
       user_deposit = StringIO.new('34.95')
       user_interface = described_class.new(user_deposit, output, options)
 
-      user_amount = user_interface.prompt_deposit
+      user_amount = user_interface.prompt_amount_for(prompt)
 
       expect(user_amount).to eq 34.95
     end
@@ -69,7 +70,7 @@ RSpec.describe UserInterface do
       invalid_deposit = StringIO.new("Twenty-two pounds\n500\n")
       user_interface = described_class.new(invalid_deposit, output, options)
 
-      user_interface.prompt_deposit
+      user_interface.prompt_amount_for(prompt)
 
       expect(output.string).to include 'Please enter a valid number'
     end
