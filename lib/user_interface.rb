@@ -22,9 +22,27 @@ class UserInterface
     prompt_valid_input(prompt, VALID_MONEY_AMOUNT)
   end
 
+  def print_statement(statement)
+    output.puts 'date || credit || debit || balance'
+    statement.reverse.each do |trans|
+      output.puts "#{unix_time_to_s(trans[:unix_time])} || "\
+                  "#{number_format(trans[:credit])} || "\
+                  "#{number_format(trans[:debit])} || "\
+                  "#{number_format(trans[:balance])}"
+    end
+  end
+
   private
 
   attr_reader :input, :output, :options
+
+  def number_format(float)
+    float.zero? ? '' : format('%<float>.2f', float: float)
+  end
+
+  def unix_time_to_s(unix_time)
+    Time.at(unix_time).strftime('%d/%m/%Y')
+  end
 
   def print_menu
     options.each_index do |index|

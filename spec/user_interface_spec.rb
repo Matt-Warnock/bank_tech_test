@@ -75,4 +75,24 @@ RSpec.describe UserInterface do
       expect(output.string).to include 'Please enter a valid number'
     end
   end
+
+  describe '#print_statement' do
+    it 'prints account statement' do
+      user_interface.print_statement(statement)
+
+      expect(output.string).to eq 'date || credit || debit || balance
+14/01/2023 ||  || 500.00 || 2500.00
+13/01/2023 || 2000.00 ||  || 3000.00
+10/01/2023 || 1000.00 ||  || 1000.00
+'
+    end
+  end
+
+  def statement
+    [
+      { unix_time: 1_673_375_078, credit: 1000.00, debit: 0, balance: 1000.00 },
+      { unix_time: 1_673_634_278, credit: 2000.00, debit: 0, balance: 3000.00 },
+      { unix_time: 1_673_720_678, credit: 0, debit: 500.00, balance: 2500.00 }
+    ]
+  end
 end
