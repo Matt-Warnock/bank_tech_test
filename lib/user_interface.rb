@@ -32,6 +32,10 @@ class UserInterface
     end
   end
 
+  def over_transaction_limit
+    output.puts 'deposit amount too high'
+  end
+
   private
 
   attr_reader :input, :output, :options

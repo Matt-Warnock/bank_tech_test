@@ -10,6 +10,8 @@ class Depositer
 
   def run
     deposit = user_interface.prompt_amount_for(UserInterface::DEPOSIT).to_f
+    return user_interface.over_transaction_limit if deposit > 500_000
+
     new_balance = account.currant_balance + deposit
 
     account.add_transaction(

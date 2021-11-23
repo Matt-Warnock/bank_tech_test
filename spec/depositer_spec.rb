@@ -16,10 +16,14 @@ RSpec.describe Depositer do
       expect(output.string).to include UserInterface::DEPOSIT
     end
 
-    it 'deposits amount into account' do
-      depositer_initialize.run
+    it 'adds transaction to account' do
+      expect { depositer_initialize.run }
+        .to change { account.all_transactions.count }.from(0).to(1)
+    end
 
-      expect(account.currant_balance).to eq deposit_amount
+    it 'add deposits amount to balance' do
+      expect { depositer_initialize.run }
+        .to change { account.currant_balance }.from(0).to(deposit_amount)
     end
 
     it 'adds currant time to the transaction' do
@@ -31,6 +35,21 @@ RSpec.describe Depositer do
       transaction_time = account.all_transactions.last[:unix_time]
 
       expect(transaction_time).to eq today.to_i
+    end
+
+    context 'when deposit amount is too high' do
+      let(:deposit_amount) { 500_001 }
+
+      it 'prints message to user' do
+        depositer_initialize.run
+
+        expect(output.string).to include 'deposit amount too high'
+      end
+
+      it 'does not deposit amount' do
+        expect { depositer_initialize.run }
+          .not_to(change { account.all_transactions.count })
+      end
     end
   end
 
