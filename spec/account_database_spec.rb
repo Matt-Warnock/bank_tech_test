@@ -42,6 +42,14 @@ RSpec.describe AccountDatabase do
 
       expect(result).to eq last_transaction_balance
     end
+
+    context 'when no transactions exist' do
+      it 'returns zero balance' do
+        result = account_database.currant_balance
+
+        expect(result).to eq 0
+      end
+    end
   end
 
   def credit_transaction

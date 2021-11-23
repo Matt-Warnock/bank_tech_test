@@ -14,7 +14,10 @@ class AccountDatabase
   end
 
   def currant_balance
-    account.last[:balance]
+    zero_balance = 0
+    return account.last[:balance] unless account.empty?
+
+    zero_balance
   end
 
   protected
