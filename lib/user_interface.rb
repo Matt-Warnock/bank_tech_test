@@ -23,12 +23,12 @@ class UserInterface
   end
 
   def print_statement(statement)
-    output.puts 'date || credit || debit || balance'
+    print_statement_header
     statement.reverse.each do |trans|
       output.puts "#{unix_time_to_s(trans[:unix_time])} || "\
-                  "#{number_format(trans[:credit])} || "\
-                  "#{number_format(trans[:debit])} || "\
-                  "#{number_format(trans[:balance])}"
+                  "#{money_format(trans[:credit])} || "\
+                  "#{money_format(trans[:debit])} || "\
+                  "#{money_format(trans[:balance])}"
     end
   end
 
@@ -36,12 +36,16 @@ class UserInterface
 
   attr_reader :input, :output, :options
 
-  def number_format(float)
-    float.zero? ? '' : format('%<float>.2f', float: float)
+  def money_format(number)
+    number.zero? ? '' : format('%<money>.2f', money: number)
   end
 
   def unix_time_to_s(unix_time)
     Time.at(unix_time).strftime('%d/%m/%Y')
+  end
+
+  def print_statement_header
+    output.puts 'date || credit || debit || balance'
   end
 
   def print_menu
@@ -58,7 +62,7 @@ class UserInterface
   def valid_input
     loop do
       user_input = input.gets.chomp
-      break user_input.to_f if yield user_input
+      break user_input if yield user_input
 
       output.puts 'Please enter a valid number'
     end
