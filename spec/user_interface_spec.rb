@@ -97,6 +97,14 @@ date || credit || debit || balance
     end
   end
 
+  describe '#insufficient_funds' do
+    it 'prints insufficient funds message' do
+      user_interface.insufficient_funds
+
+      expect(output.string).to include 'you have insufficient funds available'
+    end
+  end
+
   def statement
     [
       { unix_time: 1_673_375_078, credit: 1000.00, debit: 0, balance: 1000.00 },

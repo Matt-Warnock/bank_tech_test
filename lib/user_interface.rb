@@ -36,6 +36,10 @@ class UserInterface
     output.puts 'deposit amount too high'
   end
 
+  def insufficient_funds
+    output.puts 'you have insufficient funds available'
+  end
+
   private
 
   attr_reader :input, :output, :options
