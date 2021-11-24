@@ -9,23 +9,26 @@ class Withdrawer
   end
 
   def run
-    return user_interface.insufficient_funds unless account.currant_balance.positive?
+    currant_balance = account.currant_balance
+    return user_interface.insufficient_funds unless currant_balance.positive?
 
-    withdrawal = user_interface.prompt_amount_for(UserInterface::WITHDRAWAL).to_f
-    return user_interface.insufficient_funds if withdrawal > account.currant_balance
-
-    new_balance = account.currant_balance - withdrawal
+    withdrawal = collect_withdrawal
+    return user_interface.insufficient_funds if withdrawal > currant_balance
 
     account.add_transaction(
       unix_time: unix_time_now,
       debit: withdrawal,
-      balance: new_balance
+      balance: currant_balance - withdrawal
     )
   end
 
   private
 
   attr_reader :account, :user_interface
+
+  def collect_withdrawal
+    user_interface.prompt_amount_for(UserInterface::WITHDRAWAL).to_f
+  end
 
   def unix_time_now
     Time.now.to_i
