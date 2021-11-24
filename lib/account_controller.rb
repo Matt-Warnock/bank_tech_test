@@ -7,6 +7,11 @@ class AccountController
   end
 
   def start
-    @user_interface.menu_choice
+    loop do
+      user_choice = @user_interface.menu_choice
+
+      @actions[user_choice.to_i - 1].run
+      break if user_choice == '4'
+    end
   end
 end
