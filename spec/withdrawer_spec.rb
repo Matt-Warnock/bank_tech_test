@@ -61,13 +61,13 @@ RSpec.describe Withdrawer do
     context 'when no balance in account' do
       let(:initial_deposit) { 0 }
 
-      xit 'does not prompt user for withdrawal amount' do
+      it 'does not prompt user for withdrawal amount' do
         withdrawer_initialize.run
 
-        expect(output.string).to_not include UserInterface::CREDIT
+        expect(output.string).to_not include "#{UserInterface::WITHDRAWAL}\n"
       end
 
-      xit 'prints message to user' do
+      it 'prints message to user' do
         withdrawer_initialize.run
 
         expect(output.string).to include 'you have insufficient funds available'
