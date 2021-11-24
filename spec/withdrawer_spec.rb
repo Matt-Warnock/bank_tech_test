@@ -46,13 +46,13 @@ RSpec.describe Withdrawer do
     context 'when withdrawing more than in account' do
       let(:withdrawal_amount) { initial_deposit + 1 }
 
-      xit 'prints message to user' do
+      it 'prints message to user' do
         withdrawer_initialize.run
 
         expect(output.string).to include 'you have insufficient funds available'
       end
 
-      xit 'does not withdraw amount' do
+      it 'does not withdraw amount' do
         expect { withdrawer_initialize.run }
           .not_to(change { account.all_transactions.count })
       end

@@ -12,6 +12,7 @@ class Withdrawer
     return user_interface.insufficient_funds unless account.currant_balance.positive?
 
     withdrawal = user_interface.prompt_amount_for(UserInterface::WITHDRAWAL).to_f
+    return user_interface.insufficient_funds if withdrawal > account.currant_balance
 
     new_balance = account.currant_balance - withdrawal
 
