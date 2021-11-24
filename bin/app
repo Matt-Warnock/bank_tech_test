@@ -2,3 +2,24 @@
 # frozen_string_literal: true
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
+require 'account_controller'
+require 'account_database'
+require 'depositer'
+require 'null_action'
+require 'statementer'
+require 'user_interface'
+require 'withdrawer'
+
+option_names = ['Deposit', 'Withdrawal', 'Account Statment', 'Exit']
+user_interface = UserInterface.new($stdin, $stdout, option_names)
+account = AccountDatabase.new
+
+option_actions = [
+  Depositer.new(account, user_interface),
+  Withdrawer.new(account, user_interface),
+  Statementer.new(account, user_interface),
+  NullAction.new
+]
+
+AccountController.new(option_actions, user_interface).start
