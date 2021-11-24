@@ -5,11 +5,10 @@ require 'user_interface'
 RSpec.describe UserInterface do
   let(:output) { StringIO.new }
   let(:options) { ['Deposit', 'Withdrawal', 'Account Statment', 'Exit'] }
+  let(:user_interface) { described_class.new(valid_choice, output, options) }
+  let(:valid_choice) { StringIO.new("1\n") }
 
   describe '#menu_choice' do
-    let(:user_interface) { described_class.new(valid_choice, output, options) }
-    let(:valid_choice) { StringIO.new("1\n") }
-
     it 'prints all app options' do
       user_interface.menu_choice
 
@@ -80,9 +79,6 @@ RSpec.describe UserInterface do
 
   describe '#print_statement' do
     it 'prints account statement' do
-      input = StringIO.new("1\n")
-      user_interface = described_class.new(input, output, options)
-
       user_interface.print_statement(statement)
 
       expect(output.string).to eq "\
@@ -90,6 +86,22 @@ date || credit || debit || balance
 14/01/2023 ||  || 500.00 || 2500.00
 13/01/2023 || 2000.00 ||  || 3000.00
 10/01/2023 || 1000.00 ||  || 1000.00\n"
+    end
+  end
+
+  describe '#over_transaction_limit' do
+    it 'prints transaction limit message' do
+      user_interface.over_transaction_limit
+
+      expect(output.string).to include 'deposit amount too high'
+    end
+  end
+
+  describe '#insufficient_funds' do
+    it 'prints insufficient funds message' do
+      user_interface.insufficient_funds
+
+      expect(output.string).to include 'you have insufficient funds available'
     end
   end
 
