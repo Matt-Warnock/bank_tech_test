@@ -9,7 +9,7 @@ class Depositer
   end
 
   def run
-    deposit = user_interface.prompt_amount_for(UserInterface::DEPOSIT).to_f
+    deposit = collect_deposit
     return user_interface.over_transaction_limit if deposit > 500_000
 
     new_balance = account.currant_balance + deposit
@@ -24,6 +24,10 @@ class Depositer
   private
 
   attr_reader :account, :user_interface
+
+  def collect_deposit
+    user_interface.prompt_amount_for(UserInterface::DEPOSIT).to_f
+  end
 
   def unix_time_now
     Time.now.to_i
