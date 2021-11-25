@@ -1,20 +1,26 @@
-[![Build Status](https://travis-ci.org/Matt-Warnock/contact-book.svg?branch=master)](https://travis-ci.org/Matt-Warnock/bank_tech_test)
-[![Coverage Status](https://coveralls.io/repos/github/Matt-Warnock/bank_tech_test/badge.svg?branch=master)](https://coveralls.io/github/Matt-Warnock/bank_tech_test?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/928faf993ccf571770dc/maintainability)](https://codeclimate.com/github/Matt-Warnock/bank_tech_test/maintainability)
-[![Dependency status](https://badges.depfu.com/badges/a5f9aa0eb83998a1a81f7b1298a0b4f8/overview.svg)](https://depfu.com/github/Matt-Warnock/bank_tech_test?project=Bundler)
+[![Build Status](https://app.travis-ci.com/Matt-Warnock/bank_tech_test.svg?branch=main)](https://app.travis-ci.com/Matt-Warnock/bank_tech_test)
+[![Coverage Status](https://coveralls.io/repos/github/Matt-Warnock/bank_tech_test/badge.svg)](https://coveralls.io/github/Matt-Warnock/bank_tech_test)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2ddc559bd706bd1b3751/maintainability)](https://codeclimate.com/github/Matt-Warnock/bank_tech_test/maintainability)
+[![Depfu](https://badges.depfu.com/badges/b4bf583ad5686311b22c9bb0a77a7570/status.svg)](https://depfu.com)
 
 
 # Readme
 
-Makers tech test practice:
+# Makers tech test:
 A small CLI app that can take deposits and Withdrawals and print bank statements to screen.
 
+## My approach
 
-## Badges
+I decided to build class by class with the most complex class first,
+So starting with the user_interface. I had it in mind to do end to end (feature) tests with the action classes, with all other classes being unit tested.
 
-* Turn your repo ON in Travis (CI), in Coveralls (coverage status), codeclimate (maintainability), and depfu (dependency status).
-* Update badges with your user/repo names.
+## App design
 
+An Account controller class handles the user request of action and calls the relevant action class. This action class handles the logic of the action, instructing the user interface and the account. To collect and store the transaction.
+
+The menu for actions is displayed after each action, there is a null action used to exit program.
+
+![screenshot](app_screenshot.png)
 
 ## How to use this project
 
