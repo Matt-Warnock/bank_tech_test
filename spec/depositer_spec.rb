@@ -55,7 +55,11 @@ RSpec.describe Depositer do
 
   def depositer_initialize
     options = ['Deposit', 'Withdrawal', 'Account Statment', 'Exit']
-    user_interface = UserInterface.new(StringIO.new("#{deposit_amount}\n"), output, options)
+    user_interface = UserInterface.new(
+      StringIO.new("#{deposit_amount}\n"),
+      output,
+      options
+    )
 
     Depositer.new(account, user_interface)
   end

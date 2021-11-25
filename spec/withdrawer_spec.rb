@@ -77,7 +77,11 @@ RSpec.describe Withdrawer do
 
   def withdrawer_initialize
     options = ['Deposit', 'Withdrawal', 'Account Statment', 'Exit']
-    user_interface = UserInterface.new(StringIO.new("#{withdrawal_amount}\n"), output, options)
+    user_interface = UserInterface.new(
+      StringIO.new("#{withdrawal_amount}\n"),
+      output,
+      options
+    )
 
     Withdrawer.new(account, user_interface)
   end
