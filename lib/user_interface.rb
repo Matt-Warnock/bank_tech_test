@@ -14,7 +14,7 @@ class UserInterface
   end
 
   def menu_choice
-    print_menu
+    output.puts build_menu
     prompt_valid_input(MENU_OPTION, VALID_OPTION)
   end
 
@@ -24,12 +24,7 @@ class UserInterface
 
   def print_statement(statement)
     print_statement_header
-    statement.reverse.each do |trans|
-      output.puts "#{unix_time_to_s(trans[:unix_time])} || "\
-                  "#{money_format(trans[:credit])} || "\
-                  "#{money_format(trans[:debit])} || "\
-                  "#{money_format(trans[:balance])}"
-    end
+    output.puts build_statement_table(statement).join("\n")
   end
 
   def over_transaction_limit
@@ -44,6 +39,15 @@ class UserInterface
 
   attr_reader :input, :output, :options
 
+  def build_statement_table(statement)
+    statement.reverse.each_with_object([]) do |trans, table|
+      table << "#{unix_time_to_s(trans[:unix_time])} || "\
+                  "#{money_format(trans[:credit])} || "\
+                  "#{money_format(trans[:debit])} || "\
+                  "#{money_format(trans[:balance])}"
+    end
+  end
+
   def money_format(number)
     number.zero? ? '' : format('%<money>.2f', money: number)
   end
@@ -56,10 +60,12 @@ class UserInterface
     output.puts 'date || credit || debit || balance'
   end
 
-  def print_menu
+  def build_menu
+    menu = ''
     options.each_index do |index|
-      output.puts "#{index + 1}. #{options[index]}"
+      menu += "#{index + 1}. #{options[index]}\n"
     end
+    menu
   end
 
   def prompt_valid_input(prompt, validation)
@@ -72,7 +78,11 @@ class UserInterface
       user_input = input.gets.chomp
       break user_input if yield user_input
 
-      output.puts 'Please enter a valid number'
+      invalid_number_message
     end
+  end
+
+  def invalid_number_message
+    output.puts 'Please enter a valid number'
   end
 end
